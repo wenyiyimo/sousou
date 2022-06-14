@@ -1,29 +1,4 @@
 阅读此篇教程大概需要3分钟
-搜搜影视完整目录(后面逐一讲解)
-common
---common.scss(公共样式)
-components
---uni-ui(组件库从官网获取)
-pages
---index
-----index.vue(首页)
---play
-----play.nvue(剧集页)
---search
-----search.vue(搜索页)
---site
-----site.vue(站源页)
-static
-utils
---http.js(网络请求及爬虫相关代码)
---database.js(数据库保存站源历史记录等)
---webview.js(嗅探视频相关代码)
-App.vue
-index.html
-main.js
-manifest.json
-pages.json
-uni.scss(uniapp内置样式,无需修改)
 
 网络请求主要用的就是官网的uni.request,以下仅列出本教程用到的参数,想了解更多,请去以下链接:https://uniapp.dcloud.io/api/request/request.html
 uni.request({url: '',method: 'GET',header: {},timeout: 10000,success(response) {},fail(error) {}})
@@ -62,7 +37,7 @@ pages
 ----index.vue(首页)
 static
 utils
---http.js(网络请求及爬虫相关代码)
+--http.js(上面封装的网络请求放进去)
 App.vue
 index.html
 main.js
@@ -70,7 +45,54 @@ manifest.json
 pages.json
 uni.scss(uniapp内置样式,无需修改)
 
+将封装的请求放在http.js里,如下:
+let http = {
+	// 网络请求
+	async get(url, header = {}) {
+		return new Promise((resolve, reject) => {
+			uni.request({
+				url: url,
+				method: 'GET',
+				header: header,
+				timeout: 10000, //设置超时时间为10秒
+				success(response) {
+					resolve(response.data);
+				},
+				fail(error) {
+					reject(error)
+				}
+			})
+		})
+	}
+}
+export default http
 
+index.vue代码如下:
+<template>
+	<view class="index">
+		<view class="body">
+			<text class="title" @click="gethtml">{{ title }}</text>
+		</view>
+	</view>
+</template>
+<script>
+import http from '../../utils/http.js';
+export default {
+	data() {
+		return {
+			title: '获取源码'
+		};
+	},
+	onLoad() {},
+	methods: {
+		async gethtml() {
+			this.title = await http.get('https://www.baidu.com/');
+		}
+	}
+};
+</script>
+<style></style>
 
+运行成功后点击获取源码即可查看结果。
 
-
+本次教程结束,谢谢观看!
