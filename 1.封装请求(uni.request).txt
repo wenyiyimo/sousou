@@ -55,4 +55,22 @@ let http = {
 	}}
 export default http
 
+练习一下:
+新建一个项目,名字为sousou,目录结构如下:
+pages
+--index
+----index.vue(首页)
+static
+utils
+--http.js(网络请求及爬虫相关代码)
+App.vue
+index.html
+main.js
+manifest.json
+pages.json
+uni.scss(uniapp内置样式,无需修改)
+
+
+
+
 
