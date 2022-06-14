@@ -1,5 +1,5 @@
 阅读此篇教程大概需要3分钟
-搜搜影视完整目录
+搜搜影视完整目录(后面逐一讲解)
 common
 --common.scss(公共样式)
 components
@@ -8,13 +8,11 @@ pages
 --index
 ----index.vue(首页)
 --play
-----play.vue(剧集页)
+----play.nvue(剧集页)
 --search
 ----search.vue(搜索页)
 --site
 ----site.vue(站源页)
---video
-----video.nvue(视频播放弹窗)
 static
 utils
 --http.js(网络请求及爬虫相关代码)
@@ -26,3 +24,35 @@ main.js
 manifest.json
 pages.json
 uni.scss(uniapp内置样式,无需修改)
+
+网络请求主要用的就是官网的uni.request,以下仅列出本教程用到的参数,想了解更多,请去以下链接:https://uniapp.dcloud.io/api/request/request.html
+uni.request({url: '',method: 'GET',header: {},timeout: 10000,success(response) {},fail(error) {}})
+url:要爬取的链接
+method:请求方式,本教程get就足够用了
+hearder:请求头,有些网站获取不到源码,可以尝试设置这个参数,但是不能设置 Referer
+timeout:请求超时时间,单位 ms
+success:请求成功会执行的部分,response.data为获取到的网页源码
+fail:请求失败会执行的部分,error为错误信息
+
+为了后面获取源码方便,直接做以下封装:
+let http = {
+	// 网络请求
+	async get(url, header = {}) {
+		return new Promise((resolve, reject) => {
+			uni.request({
+				url: url,
+				method: 'GET',
+				header: header,
+				timeout: 10000,//设置超时时间为10秒
+				success(response) {
+					resolve(response.data);
+				},
+				fail(error) {
+					reject(error)
+				}
+			})
+		})
+	}}
+export default http
+
+
