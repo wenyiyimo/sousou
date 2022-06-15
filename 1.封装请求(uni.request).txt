@@ -1,4 +1,4 @@
-阅读此篇教程大概需要3分钟
+阅读此篇教程大概需要3分钟,动手大概需要5分钟
 
 网络请求主要用的就是官网的uni.request,以下仅列出本教程用到的参数,想了解更多,请去以下链接:https://uniapp.dcloud.io/api/request/request.html
 uni.request({url: '',method: 'GET',header: {},timeout: 10000,success(response) {},fail(error) {}})
