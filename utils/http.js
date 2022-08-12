@@ -1,5 +1,5 @@
 const http = {
-	async get(url, timeout = 10000, header = {}, ) {
+	async get(url, timeout = 10000, header = {}) {
 		return new Promise((resolve, reject) => {
 			uni.request({
 				url: url,
