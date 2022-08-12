@@ -8,8 +8,8 @@ const init = {
 			uni.setStorageSync('index', {
 				tagname: "",
 				tagurl: "",
-				startnum: "",
-				secondnum: "",
+				startnum: "1",
+				secondnum: "2",
 				range: "",
 				item: "",
 				picture: "",
