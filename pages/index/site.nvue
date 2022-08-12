@@ -8,6 +8,7 @@
 					style="flex:1;margin-left: 10px;margin-right: 10px;"
 					placeholder="请输入json格式数据"
 					bgColor="#EEEEEE"
+					v-model="impdata"
 					cancelButton="none"
 					@confirm="importEvent"
 					borderColor="#000000"
@@ -20,11 +21,26 @@
 		<view class="body">
 			<view style="background-color: #d8d8d8;height: 1px;margin-bottom: 10px;margin-top: 10px;"></view>
 			<view class="start-row" style="height: 30px;">
+				<text class="second-text" style="margin-top: 5px">数据类型</text>
+				<uni-search-bar
+					style="flex:1;margin-left: 10px;"
+					maxlength="-1"
+					clearButton="always"
+					v-model="texttype"
+					placeholder="json或html"
+					bgColor="#EEEEEE"
+					cancelButton="none"
+					borderColor="#000000"
+				></uni-search-bar>
+			</view>
+			<view style="background-color: #d8d8d8;height: 1px;margin-bottom: 10px;margin-top: 10px;"></view>
+			<view class="start-row" style="height: 30px;">
 				<text class="second-text" style="margin-top: 5px">分类标签</text>
 				<uni-search-bar
 					style="flex:1;margin-left: 10px;"
 					maxlength="-1"
 					clearButton="always"
+					v-model="tagname"
 					placeholder="名字中间用&&&分隔"
 					bgColor="#EEEEEE"
 					cancelButton="none"
@@ -41,6 +57,7 @@
 					placeholder="链接间&&&页数用PAGE"
 					bgColor="#EEEEEE"
 					cancelButton="none"
+					v-model="tagurl"
 					borderColor="#000000"
 				></uni-search-bar>
 			</view>
@@ -51,8 +68,9 @@
 					style="flex:1;margin-left: 10px;margin-right: 10px;"
 					maxlength="-1"
 					clearButton="always"
-					placeholder="默认为1"
+					placeholder="默认1"
 					bgColor="#EEEEEE"
+					v-model="startnum"
 					cancelButton="none"
 					borderColor="#000000"
 				></uni-search-bar>
@@ -61,8 +79,9 @@
 					style="flex:1;margin-left: 10px;"
 					maxlength="-1"
 					clearButton="always"
-					placeholder="默认为2"
+					placeholder="默认2"
 					bgColor="#EEEEEE"
+					v-model="secondnum"
 					cancelButton="none"
 					borderColor="#000000"
 				></uni-search-bar>
@@ -77,12 +96,76 @@
 					placeholder="数据整体范围"
 					bgColor="#EEEEEE"
 					cancelButton="none"
+					v-model="range"
 					borderColor="#000000"
 				></uni-search-bar>
-				<text class="second-text" style="margin-top: 5px;">测试</text>
+				<text class="second-text" style="margin-top: 5px;" @click="rangetest()">测试</text>
 			</view>
-			<text></text>
+
 			<view style="background-color: #d8d8d8;height: 1px;margin-bottom: 10px;margin-top: 10px;"></view>
+			<view class="between-row" style="height: 30px;">
+				<text class="second-text" style="margin-top: 5px">列表</text>
+				<uni-search-bar
+					style="flex:1;margin-left: 10px;margin-right: 10px;"
+					maxlength="-1"
+					clearButton="always"
+					placeholder="数据列表"
+					bgColor="#EEEEEE"
+					v-model="item"
+					cancelButton="none"
+					borderColor="#000000"
+				></uni-search-bar>
+				<text class="second-text" style="margin-top: 5px;" @click="itemtest()">测试</text>
+			</view>
+
+			<view style="background-color: #d8d8d8;height: 1px;margin-bottom: 10px;margin-top: 10px;"></view>
+			<view class="between-row" style="height: 30px;">
+				<text class="second-text" style="margin-top: 5px">图片</text>
+				<uni-search-bar
+					style="flex:1;margin-left: 10px;margin-right: 10px;"
+					maxlength="-1"
+					clearButton="always"
+					v-model="picture"
+					placeholder="获取图片"
+					bgColor="#EEEEEE"
+					cancelButton="none"
+					borderColor="#000000"
+				></uni-search-bar>
+				<text class="second-text" style="margin-top: 5px;" @click="pictest()">测试</text>
+			</view>
+
+			<view style="background-color: #d8d8d8;height: 1px;margin-bottom: 10px;margin-top: 10px;"></view>
+			<view class="start-row" style="height: 30px;">
+				<text class="second-text" style="margin-top: 5px">图片前缀</text>
+				<uni-search-bar
+					style="flex:1;margin-left: 10px;"
+					maxlength="-1"
+					clearButton="always"
+					placeholder="链接不完整时设置"
+					v-model="picurl"
+					bgColor="#EEEEEE"
+					cancelButton="none"
+					borderColor="#000000"
+				></uni-search-bar>
+			</view>
+			<view style="background-color: #d8d8d8;height: 1px;margin-bottom: 10px;margin-top: 10px;"></view>
+			<view class="between-row" style="height: 30px;">
+				<text class="second-text" style="margin-top: 5px">标题</text>
+				<uni-search-bar
+					style="flex:1;margin-left: 10px;margin-right: 10px;"
+					maxlength="-1"
+					clearButton="always"
+					placeholder="获取标题"
+					v-model="title"
+					bgColor="#EEEEEE"
+					cancelButton="none"
+					borderColor="#000000"
+				></uni-search-bar>
+				<text class="second-text" style="margin-top: 5px;" @click="titletest()">测试</text>
+			</view>
+
+			<view style="background-color: #d8d8d8;height: 1px;margin-bottom: 10px;margin-top: 10px;"></view>
+			<text class="second-text">{{ logger }}</text>
 		</view>
 	</view>
 </template>
@@ -92,15 +175,92 @@ import { onLoad, onShow } from '@dcloudio/uni-app';
 import UniSearchBar from '@/components/uni_ui/uni-search-bar/components/uni-search-bar/uni-search-bar.vue';
 import UniIcons from '@/components/uni_ui/uni-icons/components/uni-icons/uni-icons.vue';
 import UniCard from '@/components/uni_ui/uni-card/components/uni-card/uni-card.vue';
+import http from '@/utils/http.js';
 import { ref, reactive } from 'vue';
+const index = reactive(uni.getStorageSync('index'));
 
+const impdata = ref('');
+const texttype = ref('');
+const tagname = ref('');
+const tagurl = ref('');
+const startnum = ref('');
+const secondnum = ref('');
+const range = ref('');
+const item = ref('');
+const picture = ref('');
+const picurl = ref('');
+const title = ref('');
+const logger = ref('');
 const sWidth = uni.getStorageSync('sWidth');
 // console.log(sWidth);
 const sHeight = uni.getStorageSync('sHeight');
+texttype.value = index.texttype;
+tagname.value = index.tagname;
+tagurl.value = index.tagurl;
+startnum.value = index.startnum;
+secondnum.value = index.secondnum;
+range.value = index.range;
+item.value = index.item;
+picture.value = index.picture;
+picurl.value = index.picurl;
+title.value = index.title;
 const navBack = async () => {
 	uni.navigateBack();
 };
-const importEvent = async () => {};
+const importEvent = async () => {
+	if (impdata.value.trim() == '') {
+		index = {
+			tagname: tagname.value,
+			tagurl: tagurl.value,
+			startnum: startnum.value,
+			secondnum: secondnum.value,
+			range: range.value,
+			item: item.value,
+			picture: picture.value,
+			picurl: picurl.value,
+			title: title.value
+		};
+		uni.setStorageSync('index', index);
+	} else {
+		index = JSON.parse(impdata.value);
+		uni.setStorageSync('index', index);
+		tagname.value = index.tagname;
+		tagurl.value = index.tagurl;
+		startnum.value = index.startnum;
+		secondnum.value = index.secondnum;
+		range.value = index.range;
+		item.value = index.item;
+		picture.value = index.picture;
+		picurl.value = index.picurl;
+		title.value = index.title;
+	}
+};
+const geturl = async () => {
+	let url = tagurl.value.split('&&&')[0];
+	return url.replace('PAGE', startnum.value);
+};
+const rangetest = async () => {
+	let url = await geturl();
+	let data = await http.get(url);
+	if (texttype.value.trim() == 'html') {
+		logger.value = await http.matchOne(range.value, data);
+	} else {
+		logger.value = await http.matchjson(range.value, JSON.parse(data));
+	}
+};
+const itemtest = async () => {
+	let url = await geturl();
+	let data = await http.get(url);
+	if (texttype.value.trim() == 'html') {
+		let tagrange = await http.matchOne(range.value, data);
+		logger.value = await http.matchAll(item.value, tagrange);
+	} else {
+		let tagrange = await http.matchjson(range.value, JSON.parse(data));
+		logger.value = await http.matchjson(item.value, tagrange);
+	}
+};
+const pictest = async () => {};
+const titletest = async () => {};
 </script>
 
 <style lang="scss" scoped>
