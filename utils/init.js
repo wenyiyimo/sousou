@@ -6,6 +6,7 @@ const init = {
 		let index = uni.getStorageSync("index");
 		if (!index) {
 			uni.setStorageSync('index', {
+				texttype: "",
 				tagname: "",
 				tagurl: "",
 				startnum: "1",
