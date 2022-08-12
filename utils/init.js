@@ -5,7 +5,17 @@ const init = {
 		});
 		let index = uni.getStorageSync("index");
 		if (!index) {
-			uni.setStorageSync('index', 0)
+			uni.setStorageSync('index', {
+				tagname: "",
+				tagurl: "",
+				startnum: "",
+				secondnum: "",
+				range: "",
+				item: "",
+				picture: "",
+				picurl: "",
+				title: ""
+			})
 		}
 		let sWidth = uni.getStorageSync("sWidth");
 		if (!sWidth) {
