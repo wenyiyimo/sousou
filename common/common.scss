@@ -1,0 +1,37 @@
+.header {
+	margin-left: 10px;
+	margin-right: 10px;
+	position: sticky;
+	top: 0px;
+	background-color: #ffffff;
+	display: flex;
+	flex-direction: column;
+	height: 60px;
+}
+.header-top {
+	height: 30px;
+	background-color: #ffffff;
+}
+.between-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.start-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+
+.body {
+	margin-left: 20rpx;
+	margin-right: 20rpx;
+	display: flex;
+	flex-direction: column;
+}
+.first-text {
+	font-size: 20px;
+}
+.second-text {
+	font-size: 16px;
+}
