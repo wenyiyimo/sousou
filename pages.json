@@ -56,6 +56,7 @@
 		"selectedColor": "#00aa00",
 		"borderStyle": "black",
 		"backgroundColor": "#F8F8F8",
+		"fontSize": "16px",
 		"list": [{
 				"pagePath": "pages/index/index",
 				// "iconPath": "static/component.png",
