@@ -210,6 +210,7 @@ const navBack = async () => {
 const importEvent = async () => {
 	if (impdata.value.trim() == '') {
 		index = {
+			texttype: texttype.value,
 			tagname: tagname.value,
 			tagurl: tagurl.value,
 			startnum: startnum.value,
@@ -224,6 +225,7 @@ const importEvent = async () => {
 	} else {
 		index = JSON.parse(impdata.value);
 		uni.setStorageSync('index', index);
+		texttype.value = index.texttype;
 		tagname.value = index.tagname;
 		tagurl.value = index.tagurl;
 		startnum.value = index.startnum;
@@ -243,24 +245,123 @@ const rangetest = async () => {
 	let url = await geturl();
 	let data = await http.get(url);
 	if (texttype.value.trim() == 'html') {
-		logger.value = await http.matchOne(range.value, data);
+		let res = await http.matchOne(range.value, data);
+		if (res.flag) {
+			logger.value = res.data;
+			return {
+				flag: true,
+				data: res.data
+			};
+		} else {
+			logger.value = '获取失败';
+			return {
+				flag: false,
+				data: '获取失败'
+			};
+		}
 	} else {
-		logger.value = await http.matchjson(range.value, JSON.parse(data));
+		let res = await http.matchjson(range.value, JSON.parse(data));
+		if (res.flag) {
+			logger.value = res.data;
+			return {
+				flag: true,
+				data: res.data
+			};
+		} else {
+			logger.value = '获取失败';
+			return {
+				flag: false,
+				data: '获取失败'
+			};
+		}
 	}
 };
 const itemtest = async () => {
-	let url = await geturl();
-	let data = await http.get(url);
-	if (texttype.value.trim() == 'html') {
-		let tagrange = await http.matchOne(range.value, data);
-		logger.value = await http.matchAll(item.value, tagrange);
+	let res = await rangetest();
+	if (res.flag) {
+		if (texttype.value.trim() == 'html') {
+			let resitem = await http.matchAll(item.value, res.data);
+			if (resitem.flag) {
+				logger.value = resitem.data;
+				return {
+					flag: true,
+					data: resitem.data
+				};
+			} else {
+				logger.value = '获取失败';
+				return {
+					flag: false,
+					data: '获取失败'
+				};
+			}
+		} else {
+			let resitem = await http.matchjson(item.value, res.data);
+			if (resitem.flag) {
+				logger.value = resitem.data;
+				return {
+					flag: true,
+					data: resitem.data
+				};
+			} else {
+				logger.value = '获取失败';
+				return {
+					flag: false,
+					data: '获取失败'
+				};
+			}
+		}
 	} else {
-		let tagrange = await http.matchjson(range.value, JSON.parse(data));
-		logger.value = await http.matchjson(item.value, tagrange);
+		logger.value = '获取失败';
+		return {
+			flag: false,
+			data: '获取失败'
+		};
 	}
 };
-const pictest = async () => {};
-const titletest = async () => {};
+const pictest = async () => {
+	let res = await itemtest();
+	if (res.flag) {
+		if (texttype.value.trim() == 'html') {
+			let respic = await http.matchAll(picture.value, res.data[0]);
+			if (respic.flag) {
+				logger.value = picurl.value + respic.data;
+			} else {
+				logger.value = '获取失败';
+			}
+		} else {
+			let respic = await http.matchjson(picture.value, res.data[0]);
+			if (respic.flag) {
+				logger.value = picurl.value + respic.data;
+			} else {
+				logger.value = '获取失败';
+			}
+		}
+	} else {
+		logger.value = '获取失败';
+	}
+};
+const titletest = async () => {
+	let res = await itemtest();
+	if (res.flag) {
+		if (texttype.value.trim() == 'html') {
+			let restitle = await http.matchAll(title.value, res.data[0]);
+			if (restitle.flag) {
+				logger.value = restitle.data;
+			} else {
+				logger.value = '获取失败';
+			}
+		} else {
+			let restitle = await http.matchjson(title.value, res.data[0]);
+			if (restitle.flag) {
+				logger.value = restitle.data;
+			} else {
+				logger.value = '获取失败';
+			}
+		}
+	} else {
+		logger.value = '获取失败';
+	}
+};
 </script>
 
 <style lang="scss" scoped>
