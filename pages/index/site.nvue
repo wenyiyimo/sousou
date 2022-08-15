@@ -99,7 +99,7 @@
 					v-model="range"
 					borderColor="#000000"
 				></uni-search-bar>
-				<text class="second-text" style="margin-top: 5px;" @click="rangetest()">测试</text>
+				<text class="second-text" style="margin-top: 5px;" @click="rangeTest()">测试</text>
 			</view>
 
 			<view style="background-color: #d8d8d8;height: 1px;margin-bottom: 10px;margin-top: 10px;"></view>
@@ -115,7 +115,7 @@
 					cancelButton="none"
 					borderColor="#000000"
 				></uni-search-bar>
-				<text class="second-text" style="margin-top: 5px;" @click="itemtest()">测试</text>
+				<text class="second-text" style="margin-top: 5px;" @click="itemTest()">测试</text>
 			</view>
 
 			<view style="background-color: #d8d8d8;height: 1px;margin-bottom: 10px;margin-top: 10px;"></view>
@@ -131,7 +131,7 @@
 					cancelButton="none"
 					borderColor="#000000"
 				></uni-search-bar>
-				<text class="second-text" style="margin-top: 5px;" @click="pictest()">测试</text>
+				<text class="second-text" style="margin-top: 5px;" @click="picTest()">测试</text>
 			</view>
 
 			<view style="background-color: #d8d8d8;height: 1px;margin-bottom: 10px;margin-top: 10px;"></view>
@@ -161,7 +161,7 @@
 					cancelButton="none"
 					borderColor="#000000"
 				></uni-search-bar>
-				<text class="second-text" style="margin-top: 5px;" @click="titletest()">测试</text>
+				<text class="second-text" style="margin-top: 5px;" @click="titleTest()">测试</text>
 			</view>
 
 			<view style="background-color: #d8d8d8;height: 1px;margin-bottom: 10px;margin-top: 10px;"></view>
@@ -241,7 +241,7 @@ const geturl = async () => {
 	let url = tagurl.value.split('&&&')[0];
 	return url.replace('PAGE', startnum.value);
 };
-const rangetest = async () => {
+const rangeTest = async () => {
 	let url = await geturl();
 	let data = await http.get(url);
 	if (texttype.value.trim() == 'html') {
@@ -276,8 +276,8 @@ const rangetest = async () => {
 		}
 	}
 };
-const itemtest = async () => {
-	let res = await rangetest();
+const itemTest = async () => {
+	let res = await rangeTest();
 	if (res.flag) {
 		if (texttype.value.trim() == 'html') {
 			let resitem = await http.matchAll(item.value, res.data);
@@ -318,8 +318,8 @@ const itemtest = async () => {
 		};
 	}
 };
-const pictest = async () => {
-	let res = await itemtest();
+const picTest = async () => {
+	let res = await itemTest();
 	if (res.flag) {
 		if (texttype.value.trim() == 'html') {
 			let respic = await http.matchAll(picture.value, res.data[0]);
@@ -340,8 +340,8 @@ const pictest = async () => {
 		logger.value = '获取失败';
 	}
 };
-const titletest = async () => {
-	let res = await itemtest();
+const titleTest = async () => {
+	let res = await itemTest();
 	if (res.flag) {
 		if (texttype.value.trim() == 'html') {
 			let restitle = await http.matchAll(title.value, res.data[0]);
