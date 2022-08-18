@@ -177,7 +177,7 @@ import UniIcons from '@/components/uni_ui/uni-icons/components/uni-icons/uni-ico
 import UniCard from '@/components/uni_ui/uni-card/components/uni-card/uni-card.vue';
 import http from '@/utils/http.js';
 import { ref, reactive } from 'vue';
-const index = reactive(uni.getStorageSync('index'));
+let index = reactive(uni.getStorageSync('index'));
 
 const impdata = ref('');
 const texttype = ref('');
