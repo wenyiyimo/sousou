@@ -16,7 +16,31 @@
 				<text class="first-text" @click="searchEvent">搜索</text>
 			</view>
 		</view>
-		<view class="body"></view>
+		<view class="body">
+			<scroll-view
+				style="
+			  white-space: nowrap;
+			  display: flex;
+			  flex-direction: row;
+			  margin-top: 10px;
+			  margin-bottom: 10px;
+			"
+				scroll-x="true"
+				show-scrollbar="false"
+				scroll-left="120"
+			>
+				<text
+					v-for="(item, index) in tagnames"
+					:key="index"
+					class="first-text"
+					:class="[tagnum == index ? 'active-text' : '']"
+					style="margin-right: 20px;"
+					@click="changetag(index)"
+				>
+					{{ item }}
+				</text>
+			</scroll-view>
+		</view>
 	</view>
 </template>
 
@@ -25,10 +49,14 @@ import UniSearchBar from '@/components/uni_ui/uni-search-bar/components/uni-sear
 import UniIcons from '@/components/uni_ui/uni-icons/components/uni-icons/uni-icons.vue';
 import { onLoad, onShow } from '@dcloudio/uni-app';
 import { ref, reactive } from 'vue';
-const search = ref('');
+import UniCard from '@/components/uni_ui/uni-card/components/uni-card/uni-card.vue';
+let tagnum = ref(0);
+let search = ref('');
 const sWidth = uni.getStorageSync('sWidth');
-console.log(sWidth);
 const sHeight = uni.getStorageSync('sHeight');
+const index = uni.getStorageSync('index');
+const tagnames = index.tagname.split('&&&');
+console.log(tagnames);
 const searchEvent = async () => {
 	console.log(search.value);
 };
@@ -36,6 +64,9 @@ const navSetting = async () => {
 	uni.navigateTo({
 		url: `/pages/setting/setting`
 	});
+};
+const changetag = async index => {
+	tagnum.value = index;
 };
 </script>
 
