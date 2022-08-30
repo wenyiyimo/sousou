@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="header">
+		<view class="header" :style="{ 'margin-left': getmargin(), 'margin-right': getmargin() }">
 			<view class="header-top"></view>
 			<view class="between-row">
 				<text class="first-text" @click="navSetting">设置</text>
@@ -24,6 +24,7 @@
 			  flex-direction: row;
 			  margin-top: 10px;
 			  margin-bottom: 10px;
+			  flex-wrap: nowrap;
 			"
 				scroll-x="true"
 				show-scrollbar="false"
@@ -34,12 +35,31 @@
 					:key="index"
 					class="first-text"
 					:class="[tagnum == index ? 'active-text' : '']"
-					style="margin-right: 20px;"
+					:style="{ 'margin-left': getmargin() }"
 					@click="changetag(index)"
 				>
 					{{ item }}
 				</text>
 			</scroll-view>
+			<view class="start-row">
+				<view v-for="(item, index) in itemlists" :key="index" :style="{ width: '100px', height: '150px', 'margin-left': getmargin() }">
+					<image :src="item.picture" mode="aspectFill" style="width: 100px; height: 150px"></image>
+					<text
+						class="second-text"
+						style="
+                  margin-top: -40rpx;
+                  z-index: 2;
+                  display: flex;
+                  background-color: rgba(255, 255, 255, 0.3);
+                  color: #000000;
+                "
+					>
+						{{ item.state.slice(0, 10) }}
+					</text>
+
+					<text class="first-text">{{ item.title }}</text>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -51,11 +71,60 @@ import { onLoad, onShow } from '@dcloudio/uni-app';
 import { ref, reactive } from 'vue';
 import UniCard from '@/components/uni_ui/uni-card/components/uni-card/uni-card.vue';
 let tagnum = ref(0);
+let pagenum = ref(1);
 let search = ref('');
+let itemlists = reactive([
+	{
+		title: '好',
+		state: '555',
+		picture: 'https://www-file.huawei.com/-/media/corp2020/home/banner/6/vmall-legou-dongguang.jpg'
+	},
+	{
+		title: '好',
+		state: '555',
+		picture: 'https://www-file.huawei.com/-/media/corp2020/home/banner/6/vmall-legou-dongguang.jpg'
+	},
+	{
+		title: '好',
+		state: '555',
+		picture: 'https://www-file.huawei.com/-/media/corp2020/home/banner/6/vmall-legou-dongguang.jpg'
+	},
+	{
+		title: '好',
+		state: '555',
+		picture: 'https://www-file.huawei.com/-/media/corp2020/home/banner/6/vmall-legou-dongguang.jpg'
+	},
+	{
+		title: '好',
+		state: '555',
+		picture: 'https://www-file.huawei.com/-/media/corp2020/home/banner/6/vmall-legou-dongguang.jpg'
+	},
+	{
+		title: '好',
+		state: '555',
+		picture: 'https://www-file.huawei.com/-/media/corp2020/home/banner/6/vmall-legou-dongguang.jpg'
+	},
+	{
+		title: '好',
+		state: '555',
+		picture: 'https://www-file.huawei.com/-/media/corp2020/home/banner/6/vmall-legou-dongguang.jpg'
+	}
+]);
 const sWidth = uni.getStorageSync('sWidth');
+const getmargin = () => {
+	let num = Math.floor(sWidth / 100) + 1;
+	let marginall = sWidth % 100;
+	let tarmargin = Math.floor(marginall / num);
+	if (tarmargin < 5) {
+		return Math.floor((marginall + 100) / num) + 'px';
+	} else {
+		return tarmargin + 'px';
+	}
+};
 const sHeight = uni.getStorageSync('sHeight');
 const index = uni.getStorageSync('index');
 const tagnames = index.tagname.split('&&&');
+let taghrefs = index.tagurl.split('&&&');
 console.log(tagnames);
 const searchEvent = async () => {
 	console.log(search.value);
@@ -68,6 +137,7 @@ const navSetting = async () => {
 const changetag = async index => {
 	tagnum.value = index;
 };
+const gettaghref = async () => {};
 </script>
 
 <style lang="scss" scoped>
