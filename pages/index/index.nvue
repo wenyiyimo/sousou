@@ -145,8 +145,18 @@ const navSetting = async () => {
 };
 const changetag = async index => {
 	tagnum.value = index;
+	pagenum.value = 1;
 };
-const gettaghref = async () => {};
+const gettaghref = async () => {
+	if (pagenum.value == 1) {
+		return taghrefs[tagnum.value].replace('PAGE', index.startnum);
+	} else if (pagenum.value == 2) {
+		pagenum.value = Number(index.secondnum);
+		return taghrefs[tagnum.value].replace('PAGE', index.secondnum);
+	} else {
+		return taghrefs[tagnum.value].replace('PAGE', String(pagenum.value));
+	}
+};
 </script>
 
 <style lang="scss" scoped>
