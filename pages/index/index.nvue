@@ -42,7 +42,7 @@
 				</text>
 			</scroll-view>
 			<view class="start-row">
-				<view v-for="(item, index) in itemlists" :key="index" :style="{ width: '100px', height: '150px', 'margin-left': getmargin() }">
+				<view v-for="(item, index) in itemlists" :key="index" :style="{ width: '100px', height: '150px', 'margin-left': getmargin() }" @click="navSearch(item.title)">
 					<image :src="item.picture" mode="aspectFill" style="width: 100px; height: 150px"></image>
 					<text
 						class="second-text"
@@ -69,7 +69,7 @@ import UniSearchBar from '@/components/uni_ui/uni-search-bar/components/uni-sear
 import UniIcons from '@/components/uni_ui/uni-icons/components/uni-icons/uni-icons.vue';
 import { onLoad, onShow } from '@dcloudio/uni-app';
 import { ref, reactive } from 'vue';
-//import UniCard from '@/components/uni_ui/uni-card/components/uni-card/uni-card.vue';
+// import UniCard from '@/components/uni_ui/uni-card/components/uni-card/uni-card.vue';
 let tagnum = ref(0);
 let pagenum = ref(1);
 let search = ref('');
@@ -133,6 +133,10 @@ const searchEvent = async () => {
 			url: `/pages/search/search?search=${search.value}`
 		});
 	}
+};
+const navSearch = async key => {
+	search.value = key;
+	searchEvent();
 };
 const navSetting = async () => {
 	uni.navigateTo({
