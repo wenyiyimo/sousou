@@ -69,7 +69,7 @@ import UniSearchBar from '@/components/uni_ui/uni-search-bar/components/uni-sear
 import UniIcons from '@/components/uni_ui/uni-icons/components/uni-icons/uni-icons.vue';
 import { onLoad, onShow } from '@dcloudio/uni-app';
 import { ref, reactive } from 'vue';
-import UniCard from '@/components/uni_ui/uni-card/components/uni-card/uni-card.vue';
+//import UniCard from '@/components/uni_ui/uni-card/components/uni-card/uni-card.vue';
 let tagnum = ref(0);
 let pagenum = ref(1);
 let search = ref('');
