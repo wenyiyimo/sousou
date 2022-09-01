@@ -30,9 +30,16 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/index/site",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
 		}
 	    ,{
-            "path" : "pages/index/site",
+            "path" : "pages/play/play",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
